@@ -5,16 +5,31 @@ A JavaScript SDK for the Hellena platform.
 ## Installation
 
 ```bash
-npm install hellena-javascript-sdk
+npm i @hellena-sdk/hellena
 ```
 
 ## Usage
 
 ```javascript
-const Hellena = require('hellena-javascript-sdk');
+import { HellenaClient } from "@hellena-sdk/hellena";
+import dotenv from "dotenv";
 
-const client = new Hellena({
-    apiKey: 'your-api-key'
+dotenv.config({ quiet: true });
+
+const main = async () => {
+    const hellena = new HellenaClient(process.env.HELLENA_API_KEY!);
+
+    const product = await hellena.product.findOne({
+        id: "123"
+    })
+
+    return product
+}
+
+main().then((data) => {
+   console.log(data.barcode, data.name, data.quantity);
+}).catch((error) => {
+    console.error("An error occurred:", error);
 });
 ```
 
